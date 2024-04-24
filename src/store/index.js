@@ -1,50 +1,34 @@
-import { createStore } from 'redux';
-
-//make a cardReducer function to use counting application
-
-export const INCREMENT = 'Increment'  //they will solve the potential issue in the react application
-// that will handle unexpected identifier this type of problems in bigger apps where is used multiple same identifier for updateing state
-// that type of problem solve new INCREMENT constant variable were is store identifiers.
+// import { createStore, } from 'redux';
+import {createSlice,configureStore } from '@reduxjs/toolkit';
 
 const initialState = {counter:0, showCounter:true}
 
-const counterReducer = (state = initialState, action)=>{
-        if(action.type === INCREMENT){
-            // state.counter++;
-            // //     console.log(state.counter)
-            // // return state;
-            console.log('previous state',state)            
-            return {
-                counter : state.counter + 2,
-                showCounter: state.showCounter
-            }
-        } 
-
-        if(action.type === 'Increase'){
-            console.log('INCREASE HANDLER',state)
-            return{
-                counter : state.counter + action.amount,
-                showCounter: state.showCounter
-            }
+//import createSlice and pass counterSlice object as an argument
+// this can make state should be mutable
+//here you can mutate the existing state 
+const counterSlice = createSlice({
+    name:'counter',
+    initialState,
+    reducers:{
+        increment(state){
+            state.counter++;
+        },
+        decrement(state){
+            state.counter--;
+        },
+        increase(state,action){
+            state.counter = state.counter + action.payload
+        },
+        toggleCounter(state){
+            state.showCounter= !state.showCounter
         }
-        
-        if(action.type === 'DecrementBy2'){
-            return {
-                counter : state.counter - 2,
-                showCounter: state.showCounter
-            }
-        }
+    }
+});
 
-        if(action.type === 'toggle'){
-            return{
-                showCounter: !state.showCounter,
-                counter: state.counter
-            }
-        }
-
-        return state;
-};
-
-const store = createStore(counterReducer);
+//configureStore is combine multiple slice or reducer bing together in reducer
+const store = configureStore({
+    reducer:counterSlice.reducer
+});
+export const action = counterSlice.actions
 
 export default store;
