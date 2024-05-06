@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import classes from './Auth.module.css';
-import { authAction } from '../store';
+import { authAction } from '../store/Auth-Slice';
 
 const Auth = () => {
   const dispatch = useDispatch()
-  // const auth = useSelector(state => state.auth)
-  // console.log(auth)
+
   const loginHandler =(e)=>{
     e.preventDefault()
     dispatch(authAction.login())    
